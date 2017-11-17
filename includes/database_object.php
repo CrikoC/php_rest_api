@@ -64,7 +64,7 @@ class DatabaseObject {
         return static::find_by_sql($query);
     }
 
-    public static function find_by_column($column_name,$column_value) {
+    public static function find_by_column($column_name, $column_value) {
         $query = "SELECT * FROM ".static::$table_name;
         $query .= " WHERE $column_name = '".$column_value."'";
         return static::find_by_sql($query);
@@ -78,7 +78,7 @@ class DatabaseObject {
         return !empty($result_array) ? array_shift($result_array) : false;
     }
 
-    public static function find_single_by_column($column_name,$column_value) {
+    public static function find_single_by_column($column_name, $column_value) {
         $query = "SELECT * FROM ".static::$table_name;
         $query .= " WHERE $column_name = '".$column_value."'";
         $result_array = static::find_by_sql($query);

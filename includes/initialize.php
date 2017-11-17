@@ -1,7 +1,7 @@
 <?php
 // Define the core paths
 defined("METHOD") ? null : define("METHOD", $_SERVER["REQUEST_METHOD"]);
-defined("URL") ? null : define("URL", $_SERVER["URL"]);
+defined("URL") ? null : define("URL", $_GET["url"]);
 defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 defined("LIB_PATH") ? null : define("LIB_PATH", $_SERVER["DOCUMENT_ROOT"].DS."php_api".DS."includes");
 
