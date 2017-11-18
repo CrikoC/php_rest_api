@@ -13,6 +13,8 @@ if (URL == "auth") {
         $login->user_id = $user->id;
         $login->create();
 
+        setcookie("LC", $login->token, time()+3600);
+
         echo '{ "Token": "' . $login->token . '" }';
     } else {
         echo "Incorrect username or password";
