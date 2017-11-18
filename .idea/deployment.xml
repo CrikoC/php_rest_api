@@ -19,7 +19,7 @@
       <paths name="Localhost">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="php_api" />
+            <mapping local="$PROJECT_DIR$" web="php_rest_api" />
           </mappings>
         </serverdata>
       </paths>
