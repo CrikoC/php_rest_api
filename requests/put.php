@@ -9,8 +9,13 @@ if(isset($_COOKIE['LC'])) {
                 $user->username = $postBody[0]->username;
                 $user->password = password_hash($postBody[1]->password, PASSWORD_BCRYPT, ['cost'=>10]);
 
-                echo '{ "Status" : "User updated" }';
-                http_response_code(200);
+                if($user->update()) {
+                    echo '{ "Status" : "User updated" }';
+                    http_response_code(200);
+                } else {
+                    echo '{ "Error" : "Problem while updating User" }';
+                    http_response_code(405);
+                }
             }
         } else {
             echo '{ "Error" : "User not found" }';
@@ -20,13 +25,20 @@ if(isset($_COOKIE['LC'])) {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $post = Post::find_by_id($id);
+
             if (!empty($post)) {
                 $postBody = json_decode(INPUT);
                 $post->title = $postBody[0]->title;
                 $post->body = $postBody[1]->body;
 
-                echo '{ "Status" : "Post updated" }';
-                http_response_code(200);
+                if($post->update()) {
+                    echo '{ "Status" : "Post updated" }';
+                    http_response_code(200);
+                } else {
+                    echo '{ "Error" : "Problem while updating Post" }';
+                    http_response_code(405);
+                }
+
             }
         } else {
             echo '{ "Error" : "Post not found" }';
