@@ -8,7 +8,6 @@ defined("LIB_PATH") ? null : define("LIB_PATH", $_SERVER["DOCUMENT_ROOT"].DS."ph
 require_once(LIB_PATH.DS.'database.php');
 require_once(LIB_PATH.DS.'database_object.php');
 require_once(LIB_PATH.DS.'objects'.DS.'users.php');
-require_once(LIB_PATH.DS.'objects'.DS.'logins.php');
 require_once(LIB_PATH.DS.'objects'.DS.'posts.php');
 
 

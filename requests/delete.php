@@ -2,8 +2,12 @@
 if(URL == "auth") {
     if(isset($_GET['token'])) {
         $token = $_GET['token'];
-        $login = Login::find_single_by_column('token', $token);
-        $login->delete();
+        $user = User::find_single_by_column('token', $token);
+        $user->token = "";
+        $user->update();
+
+        setcookie("LC", "", time()-3600);
+
         echo '{ "Status" : "Logged out" }';
         http_response_code(200);
     } else {
@@ -11,25 +15,41 @@ if(URL == "auth") {
         http_response_code(405);
     }
 } else if(URL == "users") {
-    if(isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $user = User::find_by_id($id);
-        $user->delete();
-        echo '{ "Status" : "User deleted" }';
-        http_response_code(200);
+    if(isset($_COOKIE['LC'])) {
+        $login_cookie = $_COOKIE['LC'];
+
+        if(isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $user = User::find_by_id($id);
+
+            if($user->token == $login_cookie) {
+                setcookie("LC", "", time()-3600);
+            }
+            $user->delete();
+            echo '{ "Status" : "User deleted" }';
+            http_response_code(200);
+        } else {
+            echo '{ "Error" : "Mal-formed request" }';
+            http_response_code(405);
+        }
     } else {
-        echo '{ "Error" : "Mal-formed request" }';
-        http_response_code(405);
+        echo '{ "Error" : Not authorized" }';
+        http_response_code(401);
     }
 } else if(URL == "posts") {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $post = Post::find_by_id($id);
-        $post->delete();
-        echo '{ "Status" : "Post deleted" }';
-        http_response_code(200);
+    if(isset($_COOKIE['LC'])) {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $post = Post::find_by_id($id);
+            $post->delete();
+            echo '{ "Status" : "Post deleted" }';
+            http_response_code(200);
+        } else {
+            echo '{ "Error" : "Mal-formed request" }';
+            http_response_code(405);
+        }
     } else {
-        echo '{ "Error" : "Mal-formed request" }';
-        http_response_code(405);
+        echo '{ "Error" : Not authorized" }';
+        http_response_code(401);
     }
 }

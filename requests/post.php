@@ -8,14 +8,12 @@ if (URL == "auth") {
     if (password_verify($postBody[1]->password, $user->password)) {
         $cstrong = True;
 
-        $login = new Login();
-        $login->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
-        $login->user_id = $user->id;
-        $login->create();
+        $user->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+        $user->update();
 
-        setcookie("LC", $login->token, time()+3600);
+        setcookie("LC", $user->token, time()+3600);
 
-        echo '{ "Token": "' . $login->token . '" }';
+        echo '{ "Token": "' . $user->token . '" }';
     } else {
         echo "Incorrect username or password";
         http_response_code(401);
@@ -38,18 +36,27 @@ if (URL == "users") {
     }
 }
 if (URL == "posts") {
-    $postBody = file_get_contents("php://input");
-    $postBody = json_decode($postBody);
+    if(isset($_COOKIE['LC'])) {
+        $login_cookie = $_COOKIE['LC'];
+        $author = User::find_single_by_column('token', $login_cookie);
 
-    $post = new Post();
-    $post->title = $postBody[0]->title;
-    $post->body = $postBody[1]->body;
+        $postBody = file_get_contents("php://input");
+        $postBody = json_decode($postBody);
 
-    if ($post->create()) {
-        echo '{ "Status" : "Post added" }';
-        http_response_code(200);
+        $post = new Post();
+        $post->title = $postBody[0]->title;
+        $post->body = $postBody[1]->body;
+        $post->author = $author->username;
+
+        if ($post->create()) {
+            echo '{ "Status" : "Post added" }';
+            http_response_code(200);
+        } else {
+            echo '{ "Error" : "Mal-formed request" }';
+            http_response_code(405);
+        }
     } else {
-        echo '{ "Error" : "Mal-formed request" }';
-        http_response_code(405);
+        echo '{ "Error" : Not authorized" }';
+        http_response_code(401);
     }
 }
