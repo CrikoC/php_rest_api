@@ -5,8 +5,7 @@ if(isset($_COOKIE['LC'])) {
             $id = $_GET['id'];
             $user = User::find_by_id($id);
             if (!empty($user)) {
-                $postBody = INPUT;
-                $postBody = json_decode($postBody);
+                $postBody = json_decode(INPUT);
                 $user->username = $postBody[0]->username;
                 $user->password = password_hash($postBody[1]->password, PASSWORD_BCRYPT, ['cost'=>10]);
 
@@ -22,8 +21,7 @@ if(isset($_COOKIE['LC'])) {
             $id = $_GET['id'];
             $post = Post::find_by_id($id);
             if (!empty($post)) {
-                $postBody = INPUT;
-                $postBody = json_decode($postBody);
+                $postBody = json_decode(INPUT);
                 $post->title = $postBody[0]->title;
                 $post->body = $postBody[1]->body;
 

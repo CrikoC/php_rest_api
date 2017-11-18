@@ -1,7 +1,6 @@
 <?php
 if (URL == "auth") {
-    $postBody = INPUT;
-    $postBody = json_decode($postBody);
+    $postBody = json_decode(INPUT);
 
     $user = User::find_single_by_column("username", $postBody[0]->username);
 
@@ -20,8 +19,7 @@ if (URL == "auth") {
     }
 }
 if (URL == "users") {
-    $postBody = INPUT;
-    $postBody = json_decode($postBody);
+    $postBody = json_decode(INPUT);
 
     $user = new User();
     $user->username = $postBody[0]->username;
@@ -40,8 +38,7 @@ if (URL == "posts") {
         $login_cookie = $_COOKIE['LC'];
         $author = User::find_single_by_column('token', $login_cookie);
 
-        $postBody = INPUT;
-        $postBody = json_decode($postBody);
+        $postBody = json_decode(INPUT);
 
         $post = new Post();
         $post->title = $postBody[0]->title;
