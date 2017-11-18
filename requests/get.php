@@ -7,7 +7,7 @@ if(URL == "users") {
             echo json_encode(print_r($user));
             http_response_code(200);
         } else {
-            echo "User not found";
+            echo '{ "Error" : "User not found" }';
             http_response_code(405);
         }
     } else {
@@ -21,7 +21,7 @@ if(URL == "users") {
             echo json_encode(print_r($post));
             http_response_code(200);
         } else {
-            echo "Post not found";
+            echo '{ "Error" : "Post not found" }';
             http_response_code(405);
         }
     } else {
