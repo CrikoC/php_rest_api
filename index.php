@@ -1,14 +1,19 @@
 <?php
 include "includes/initialize.php";
 
-if(METHOD == "GET") {
-    include "requests/get.php";
-} else if(METHOD == "POST") {
-    include "requests/post.php";
-} else if(METHOD == "PUT") {
-    include "requests/put.php";
-} else if(METHOD == "DELETE") {
-    include "requests/delete.php";
-} else {
-    http_response_code(405);
+switch (METHOD) {
+    case "GET":
+        include "requests/get.php";
+        break;
+    case "POST":
+        include "requests/post.php";
+        break;
+    case "PUT":
+        include "requests/put.php";
+        break;
+    case "DELETE":
+        include "requests/delete.php";
+        break;
+    default:
+        http_response_code(405);
 }
