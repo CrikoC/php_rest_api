@@ -1,17 +1,21 @@
 <?php
-if(URL == "users") {
+if(URL == "profile") {
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
-        $user = User::find_by_id( $id);
-        if(!empty($user)) {
-            echo json_encode(print_r($user));
-            http_response_code(200);
+        $user = User::find_by_id($id);
+
+        if (!empty($user)) {
+            if($user->token == $_COOKIE['LC']) {
+                echo json_encode(print_r($user));
+                http_response_code(200);
+            } else {
+                echo '{ "Error" : "Unauthorized Access" }';
+                http_response_code(401);
+            }
         } else {
             echo '{ "Error" : "User not found" }';
             http_response_code(405);
         }
-    } else {
-        echo json_encode(print_r(User::find_all()));
     }
 }  else if(URL == "posts") {
     if(isset($_GET['id'])) {

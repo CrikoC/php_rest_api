@@ -25,7 +25,7 @@ switch (URL) {
         $user = new User();
         $user->username = $postBody[0]->username;
         $user->password = password_hash($postBody[1]->password, PASSWORD_BCRYPT, ['cost' => 10]);
-
+        
         if ($user->create()) {
             echo '{ "Status" : "User added" }';
             http_response_code(200);

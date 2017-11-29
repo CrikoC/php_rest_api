@@ -23,7 +23,7 @@ switch (URL) {
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
                 $user = User::find_by_id($id);
-
+            
                 if($user->token == $login_cookie) {
                     setcookie("LC", "", time()-3600);
                 }
