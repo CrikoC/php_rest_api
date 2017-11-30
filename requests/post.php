@@ -1,6 +1,6 @@
 <?php
 switch (URL) {
-    case "login":
+    case "auth":
         $postBody = json_decode(INPUT);
 
         $user = User::find_single_by_column("username", $postBody->username);
@@ -54,7 +54,7 @@ switch (URL) {
                 http_response_code(405);
             }
         } else {
-            echo '{ "Error" : Not authorized" }';
+            echo '{ "Error" : "Not authorized" }';
             http_response_code(401);
         }
         break;
