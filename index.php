@@ -1,4 +1,8 @@
 <?php
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
 include "includes/initialize.php";
 
 switch (METHOD) {

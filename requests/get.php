@@ -7,7 +7,7 @@ if(URL == "profile") {
 
         if (!empty($user)) {
             if($user->token == $_COOKIE['LC']) {
-                echo json_encode(print_r($user));
+                echo json_encode($user);
                 http_response_code(200);
             } else {
                 echo '{ "Error" : "Unauthorized Access" }';
@@ -30,6 +30,6 @@ if(URL == "profile") {
             http_response_code(405);
         }
     } else {
-        echo json_encode(print_r(Post::find_all()));
+        echo json_encode(Post::find_all());
     }
 }
