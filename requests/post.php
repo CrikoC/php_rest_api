@@ -1,11 +1,11 @@
 <?php
 switch (URL) {
-    case "auth":
+    case "login":
         $postBody = json_decode(INPUT);
 
-        $user = User::find_single_by_column("username", $postBody[0]->username);
+        $user = User::find_single_by_column("username", $postBody->username);
 
-        if (password_verify($postBody[1]->password, $user->password)) {
+        if (password_verify($postBody->password, $user->password)) {
             $cstrong = True;
 
             $user->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
@@ -19,13 +19,13 @@ switch (URL) {
             http_response_code(401);
         }
         break;
-    case "users":
+    case "register":
         $postBody = json_decode(INPUT);
 
         $user = new User();
-        $user->username = $postBody[0]->username;
-        $user->password = password_hash($postBody[1]->password, PASSWORD_BCRYPT, ['cost' => 10]);
-        
+        $user->username = $postBody->username;
+        $user->password = password_hash($postBody->password, PASSWORD_BCRYPT, ['cost' => 10]);
+
         if ($user->create()) {
             echo '{ "Status" : "User added" }';
             http_response_code(200);
@@ -42,8 +42,8 @@ switch (URL) {
             $postBody = json_decode(INPUT);
 
             $post = new Post();
-            $post->title = $postBody[0]->title;
-            $post->body = $postBody[1]->body;
+            $post->title = $postBody->title;
+            $post->body = $postBody->body;
             $post->author = $author->username;
 
             if ($post->create()) {

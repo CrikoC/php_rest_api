@@ -6,8 +6,8 @@ if(isset($_COOKIE['LC'])) {
             $user = User::find_by_id($id);
             if (!empty($user)) {
                 $postBody = json_decode(INPUT);
-                $user->username = $postBody[0]->username;
-                $user->password = password_hash($postBody[1]->password, PASSWORD_BCRYPT, ['cost'=>10]);
+                $user->username = $postBody->username;
+                $user->password = password_hash($postBody->password, PASSWORD_BCRYPT, ['cost'=>10]);
 
                 if($user->update()) {
                     echo '{ "Status" : "User updated" }';
@@ -28,8 +28,8 @@ if(isset($_COOKIE['LC'])) {
 
             if (!empty($post)) {
                 $postBody = json_decode(INPUT);
-                $post->title = $postBody[0]->title;
-                $post->body = $postBody[1]->body;
+                $post->title = $postBody->title;
+                $post->body = $postBody->body;
 
                 if($post->update()) {
                     echo '{ "Status" : "Post updated" }';

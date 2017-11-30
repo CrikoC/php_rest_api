@@ -2,7 +2,8 @@
 if(URL == "profile") {
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
-        $user = User::find_by_id($id);
+        $cookie = $_COOKIE['LC'];
+        $user = User::find_single_by_column('token', $cookie);
 
         if (!empty($user)) {
             if($user->token == $_COOKIE['LC']) {
