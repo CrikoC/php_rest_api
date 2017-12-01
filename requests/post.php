@@ -1,22 +1,50 @@
 <?php
 switch (URL) {
     case "auth":
+        use \Firebase\JWT\JWT;
+
+        define('SECRET_KEY','Your-Secret-Key');
+        define('ALGORITHM','HS512');
+
         $postBody = json_decode(INPUT);
 
-        $user = User::find_single_by_column("username", $postBody->username);
+        if($postBody->username && $postBody->password) {
+            $user = User::find_single_by_column("username", $postBody->username);
 
-        if (password_verify($postBody->password, $user->password)) {
-            $cstrong = True;
+            if (password_verify($postBody->password, $user->password)) {
 
-            $user->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
-            $user->update();
+                $tokenId    = base64_encode(openssl_random_pseudo_bytes(32));
+                $issuedAt   = time();
+                $notBefore  = $issuedAt + 10;  //Adding 10 seconds
+                $expire     = $notBefore + 7200; // Adding 60 seconds
+                $serverName = 'http://localhost/php_rest_api/'; /// set your domain name
 
-            setcookie("LC", $user->token, time()+3600);
+                // Create the token as an array
+                $data = [
+                    'iat'  => $issuedAt,            // Issued at: time when the token was generated
+                    'jti'  => $tokenId,             // Json Token Id: an unique identifier for the token
+                    'iss'  => $serverName,          // Issuer
+                    'nbf'  => $notBefore,           // Not before
+                    'exp'  => $expire,              // Expire
+                    'data' => [                     // Data related to the logged user you can set your required data
+                        'id'   => $user->id,        // id from the users table
+                        'name' => $user->username,  //  name
+                    ]
+                ];
+                $secretKey = base64_decode(SECRET_KEY);
+                /// Here we will transform this array into JWT:
+                $jwt = JWT::encode(
+                    $data, //Data to be encoded in the JWT
+                    $secretKey, // The signing key
+                    ALGORITHM
+                );
+                $unencodedArray = ['jwt' => $jwt];
 
-            echo '{ "Token": "' . $user->token . '" }';
-        } else {
-            echo "Incorrect username or password";
-            http_response_code(401);
+                echo  "{'status' : 'success','resp':".json_encode($unencodedArray)."}";
+            } else {
+                echo "Incorrect username or password";
+                http_response_code(401);
+            }
         }
         break;
     case "register":
