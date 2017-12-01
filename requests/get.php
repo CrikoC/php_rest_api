@@ -23,7 +23,7 @@ if(URL == "profile") {
         $id = $_GET['id'];
         $post = Post::find_by_id( $id);
         if(!empty($post)) {
-            echo json_encode(print_r($post));
+            echo json_encode($post);
             http_response_code(200);
         } else {
             echo '{ "Error" : "Post not found" }';
