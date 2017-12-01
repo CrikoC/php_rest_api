@@ -1,8 +1,6 @@
 <?php
 switch (URL) {
     case "auth":
-        use \Firebase\JWT\JWT;
-
         define('SECRET_KEY','Your-Secret-Key');
         define('ALGORITHM','HS512');
 

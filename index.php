@@ -4,6 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 include "includes/initialize.php";
+use \Firebase\JWT\JWT;
 
 switch (METHOD) {
     case "GET":
