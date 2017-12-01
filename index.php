@@ -4,6 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 include "includes/initialize.php";
+require_once "vendor/autoload.php";
 
 switch (METHOD) {
     case "GET":
