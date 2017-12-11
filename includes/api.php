@@ -21,7 +21,7 @@ class Api extends Rest {
             $this->response(SUCCESS_RESPONSE, "User registered.");
             http_response_code(SUCCESS_RESPONSE);
         } else {
-            $this->throwError(405, "Error while creating user.");
+            $this->throwError(NOT_FOUND, "Error while creating user.");
             http_response_code(405);
         }
     }
@@ -36,7 +36,8 @@ class Api extends Rest {
         
         //Check if given password matches the user's password
         if(!password_verify($password, $user->password)) {
-            $this->response(INVALID_USER_PASS, "Invalid username or password.");
+            $this->response(UNAUTHORIZED, "Invalid username or password.");
+            http_response_code(UNAUTHORIZED);
         } else {
             $payload = [
                 'iat'       => time(),
@@ -51,7 +52,7 @@ class Api extends Rest {
             
             $data = ['token' => $token];
             $this->response(SUCCESS_RESPONSE, $data);
-            http_response_code(200);
+            http_response_code(SUCCESS_RESPONSE);
         }
     }
     /*************************************/
@@ -68,10 +69,10 @@ class Api extends Rest {
         $post = Post::find_by_id( $id);
         if(!empty($post)) {
             echo json_encode($post);
-            http_response_code(200);
+            http_response_code(SUCCESS_RESPONSE);
         } else {
-            $this->throwError(405, "Could not find post.");
-            http_response_code(405);
+            $this->throwError(NOT_FOUND, "Could not find post.");
+            http_response_code(NOT_FOUND);
         }
     }
     
@@ -93,9 +94,10 @@ class Api extends Rest {
             
             if($post->create()) {
                 $this->response(SUCCESS_RESPONSE, "Post created.");
+                http_response_code(SUCCESS_RESPONSE);
             } else {
-                $this->throwError(405, "Error while inserting post");
-                http_response_code(405);
+                $this->throwError(NOT_FOUND, "Error while inserting post");
+                http_response_code(NOT_FOUND);
             }
         }
     }
@@ -113,8 +115,8 @@ class Api extends Rest {
          
             
             if($id == null) {
-                $this->throwError(405, "post not found");
-                http_response_code(405);
+                $this->throwError(NOT_FOUND, "post not found");
+                http_response_code(NOT_FOUND);
             } else {
                 $post = Post::find_by_id($id);
                 
@@ -124,8 +126,10 @@ class Api extends Rest {
                 
                 if($post->update()) {
                     $this->response(SUCCESS_RESPONSE, "Post updated.");
+                    http_response_code(SUCCESS_RESPONSE);
+                    
                 } else {
-                    $this->throwError(405, "Error while updating post");
+                    $this->throwError(NOT_FOUND, "Error while updating post");
                 }
             }
         }
@@ -141,10 +145,10 @@ class Api extends Rest {
             $post = Post::find_by_id($id);
             if($post->delete()) {
                 echo '{ "Status" : "Post deleted" }';
-                http_response_code(200);
+                http_response_code(SUCCESS_RESPONSE);
             } else {
-                $this->throwError(405, "Error while deleting post");
-                http_response_code(405);
+                $this->throwError(NOT_FOUND, "Error while deleting post");
+                http_response_code(NOT_FOUND);
             }
         }
     }

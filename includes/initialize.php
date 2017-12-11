@@ -18,18 +18,18 @@ define("STRING",    "3");
 define("REQUEST_METHOD_NOT_VALID",          100);
 define("REQUEST_CONTENT_TYPE_NOT_VALID",    101);
 define("REQUESTNOT_VALID",                  102);
-define("VALIDATE_PARAMETER_REQUIRED",       103);
 define("VALIDATE_PARAMETER_DATATYPE",       104);
-define("API_NAME_REQUIRED",                 105);
-define("API_PARAM_REQUIRED",                106);
 define("API_DOES_NOT_EXIST",                107);
 define("INVALID_USER_PASS",                 108);
 
 define("SUCCESS_RESPONSE",                  200);
+define("NO_CONTENT",                        204);      
 
 /* Server Errors */
 define("AUTHORIZATION_HEADER_NOT_FOUND",    300);
 define("ACCESS_TOKEN_ERRORS",               301);
+
+define("UNAUTHORIZED",                      401);
 
 
 /* Include JWT */

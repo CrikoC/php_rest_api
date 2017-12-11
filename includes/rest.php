@@ -12,7 +12,8 @@ class Rest {
     
     public function validateData($fieldName, $value, $datatype, $required = true) {
         if($required && (empty($value))) {
-            $this->throwError(VALIDATE_PARAMETER_REQUIRED, "Param $fieldName is required.");
+            $this->throwError(NO_CONTENT, "Param $fieldName is required.");
+            http_response_code(NO_CONTENT);
         }
         
         switch ($datatype) {
