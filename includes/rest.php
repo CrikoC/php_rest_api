@@ -39,7 +39,7 @@ class Rest {
 //         $rMethod->invoke($api);
 //     }
     
-    public function validateParameter($fieldName, $value, $datatype, $required = true) {
+    public function validateData($fieldName, $value, $datatype, $required = true) {
         if($required && (empty($value))) {
             $this->throwError(VALIDATE_PARAMETER_REQUIRED, "Param $fieldName is required.");
         }

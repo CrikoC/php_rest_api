@@ -9,8 +9,8 @@ class Api extends Rest {
     /*               USERS               */
     /*************************************/
     public function register() {
-        $username = $this->validateParameter("username", $this->param["username"], STRING);
-        $password = $this->validateParameter("pasword", $this->param["pasword"], STRING);
+        $username = $this->validateData("username", $this->data["username"], STRING);
+        $password = $this->validateData("pasword", $this->data["pasword"], STRING);
         
         $user = new User;
         
@@ -26,8 +26,8 @@ class Api extends Rest {
     
     public function authorize() {
         // Validate user fields
-        $username = $this->validateParameter("username", $this->param["username"], STRING);
-        $password = $this->validateParameter("password", $this->param["password"], STRING);
+        $username = $this->validateData("username", $this->data["username"], STRING);
+        $password = $this->validateData("password", $this->data["password"], STRING);
         
         //Search user by given username
         $user = User::find_single_by_column("username", $username);
@@ -73,8 +73,8 @@ class Api extends Rest {
     }
     
     public function addPost() {
-        $title = $this->validateParameter("title", $this->param["title"], STRING);
-        $body = $this->validateParameter("body", $this->param["body"], STRING);
+        $title = $this->validateData("title", $this->data["title"], STRING);
+        $body = $this->validateData("body", $this->data["body"], STRING);
         
         $this->validateToken();
         $user = User::find_by_id($this->userId);
@@ -97,8 +97,8 @@ class Api extends Rest {
     }
     
     public function EditPost($id) {
-        $title = $this->validateParameter("title", $this->param["title"], STRING);
-        $body = $this->validateParameter("body", $this->param["body"], STRING);
+        $title = $this->validateData("title", $this->data["title"], STRING);
+        $body = $this->validateData("body", $this->data["body"], STRING);
 
         $this->validateToken();
         $user = User::find_by_id($this->userId);
