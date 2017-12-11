@@ -20,18 +20,22 @@ class Rest {
             case BOOLEAN:
                 if(!is_bool($value)) {
                     $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype of $fieldName should be a boolean.");
+                    http_response_code(VALIDATE_PARAMETER_DATATYPE);
                 }
                 
                 break;
             case INTEGER:
                 if(!is_numeric($value)) {
                     $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype of $fieldName should be an integer.");
+                    http_response_code(VALIDATE_PARAMETER_DATATYPE);
+                    
                 }
                 
                 break;
             case STRING:
                 if(!is_string($value)) {
                     $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype of $fieldName should be a string.");
+                    http_response_code(VALIDATE_PARAMETER_DATATYPE);
                 }
                 
                 break;
@@ -74,6 +78,7 @@ class Rest {
             }
         }
         $this->throwError(AUTHORIZATION_HEADER_NOT_FOUND, "Access token not found.");
+        http_response_code(AUTHORIZATION_HEADER_NOT_FOUND);
     }
     
     public function validateToken() {
