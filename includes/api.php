@@ -18,9 +18,11 @@ class Api extends Rest {
         $user->password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
         
         if($user->create()) {
-            $this->response(SUCCESS_RESPONSE, $data);
+            $this->response(SUCCESS_RESPONSE, "User registered.");
+            http_response_code(SUCCESS_RESPONSE);
         } else {
-            $this->throwError(405, "Error while creating user");
+            $this->throwError(405, "Error while creating user.");
+            http_response_code(405);
         }
     }
     
@@ -49,6 +51,7 @@ class Api extends Rest {
             
             $data = ['token' => $token];
             $this->response(SUCCESS_RESPONSE, $data);
+            http_response_code(200);
         }
     }
     /*************************************/
@@ -80,7 +83,7 @@ class Api extends Rest {
         $user = User::find_by_id($this->userId);
             
         if($user = "") {
-            $this->response(INVALID_USER_PASS, "Cannot find user in the database.");  
+            $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");  
         } else {
             $post = new Post;
             
@@ -89,9 +92,10 @@ class Api extends Rest {
             $post->author = $user->username;
             
             if($post->create()) {
-                $this->response(SUCCESS_RESPONSE, $data);
+                $this->response(SUCCESS_RESPONSE, "Post created.");
             } else {
                 $this->throwError(405, "Error while inserting post");
+                http_response_code(405);
             }
         }
     }
@@ -104,12 +108,13 @@ class Api extends Rest {
         $user = User::find_by_id($this->userId);
         
         if($user = "") {
-            $this->response(INVALID_USER_PASS, "Cannot find user in the database.");
+            $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");
         } else {
          
             
             if($id == null) {
                 $this->throwError(405, "post not found");
+                http_response_code(405);
             } else {
                 $post = Post::find_by_id($id);
                 
@@ -118,7 +123,7 @@ class Api extends Rest {
                 $post->author = $user->username;
                 
                 if($post->update()) {
-                    $this->response(SUCCESS_RESPONSE, $data);
+                    $this->response(SUCCESS_RESPONSE, "Post updated.");
                 } else {
                     $this->throwError(405, "Error while updating post");
                 }
@@ -139,6 +144,7 @@ class Api extends Rest {
                 http_response_code(200);
             } else {
                 $this->throwError(405, "Error while deleting post");
+                http_response_code(405);
             }
         }
     }

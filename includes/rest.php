@@ -10,35 +10,6 @@ class Rest {
         $this->request = json_encode(INPUT);
     }
     
-//     public function validateRequest() {
-//         if(CT != 'application/json') {
-//             $this->throwError(REQUEST_CONTENT_TYPE_NOT_VALID, "Request content type is not valid.");
-//         }
-        
-//         $data = json_decode($this->request);
-        
-// //         if(!isset($data["name"]) || $data["name"] == "") {
-// //             $this->throwError(API_NAME_REQUIRED, "Api name required.");
-// //         }
-// //         $this->service_name = $data["name"];
-        
-//         if(!isset($data) || $data == "") {
-//             $this->throwError(API_PARAM_REQUIRED, "Api parameters required.");
-//         }
-//         $this->data = $data;
-//     }
-    
-//     public function processApi() {
-//         $api = new Api;
-//         $rMethod = new ReflectionMethod('Api', $this->service_name);
-        
-//         if(!method_exists($api, $this->service_name)) {
-//             $this->throwError(API_DOES_NOT_EXIST, "Api does not exist");
-//         }
-        
-//         $rMethod->invoke($api);
-//     }
-    
     public function validateData($fieldName, $value, $datatype, $required = true) {
         if($required && (empty($value))) {
             $this->throwError(VALIDATE_PARAMETER_REQUIRED, "Param $fieldName is required.");
@@ -115,8 +86,8 @@ class Rest {
         exit;
     }
     
-    public function response($code, $data) {
-        echo json_encode(['response' => ['status'=>$code, 'result'=>$data]]);
+    public function response($code, $message) {
+        echo json_encode(['response' => ['status'=>$code, 'message'=>$message]]);
         exit;
     }
 }
