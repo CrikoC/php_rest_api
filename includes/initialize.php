@@ -1,13 +1,45 @@
 <?php
-// Define the core paths
-defined("METHOD") ? null : define("METHOD", $_SERVER["REQUEST_METHOD"]);
-defined("URL") ? null : define("URL", $_GET["url"]);
-defined("INPUT") ? null : define("INPUT", file_get_contents("php://input"));
-defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
-defined("SERVER_PATH") ? null : define("SERVER_PATH", $_SERVER["DOCUMENT_ROOT"].DS."php_rest_api");
+/* Constants */
+define("METHOD",       $_SERVER["REQUEST_METHOD"]);
+define("URL",          $_GET["url"]);
+define("INPUT",        file_get_contents("php://input"));        
+define("DS",           DIRECTORY_SEPARATOR);
+define("SERVER_PATH",  $_SERVER["DOCUMENT_ROOT"].DS."php_rest_api");
 
+/* Security */
+define("SECRET_KEY", "ar@nd0ms3tofstr1ngs");
+
+/* Data Types */
+define("BOOLEAN",   "1");
+define("INTEGER",   "2");
+define("STRING",    "3");
+
+/* Error Codes */
+define("REQUEST_METHOD_NOT_VALID",          100);
+define("REQUEST_CONTENT_TYPE_NOT_VALID",    101);
+define("REQUESTNOT_VALID",                  102);
+define("VALIDATE_PARAMETER_REQUIRED",       103);
+define("VALIDATE_PARAMETER_DATATYPE",       104);
+define("API_NAME_REQUIRED",                 105);
+define("API_PARAM_REQUIRED",                106);
+define("API_DOES_NOT_EXIST",                107);
+define("INVALID_USER_PASS",                 108);
+
+define("SUCCESS_RESPONSE",                  200);
+
+/* Server Errors */
+define("AUTHORIZATION_HEADER_NOT_FOUND",    300);
+define("ACCESS_TOKEN_ERRORS",               301);
+
+
+/* Include JWT */
+require(SERVER_PATH.DS."vendor".DS."autoload.php");
+
+/* Include Classes */
 require_once(SERVER_PATH.DS.'includes'.DS.'database.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'database_object.php');
-require_once(SERVER_PATH.DS.'includes'.DS.'objects'.DS.'users.php');
-require_once(SERVER_PATH.DS.'includes'.DS.'objects'.DS.'posts.php');
-require_once(SERVER_PATH.DS.'vendor'.DS.'autoload.php');
+require_once(SERVER_PATH.DS.'includes'.DS.'users.php');
+require_once(SERVER_PATH.DS.'includes'.DS.'posts.php');
+require_once(SERVER_PATH.DS.'includes'.DS.'rest.php');
+require_once(SERVER_PATH.DS.'includes'.DS.'api.php');
+

@@ -1,51 +1,17 @@
 <?php
-if(isset($_COOKIE['LC'])) {
-    if(URL == "users") {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $user = User::find_by_id($id);
-            if (!empty($user)) {
-                $postBody = json_decode(INPUT);
-                $user->username = $postBody->username;
-                $user->password = password_hash($postBody->password, PASSWORD_BCRYPT, ['cost'=>10]);
 
-                if($user->update()) {
-                    echo '{ "Status" : "User updated" }';
-                    http_response_code(200);
-                } else {
-                    echo '{ "Error" : "Problem while updating User" }';
-                    http_response_code(405);
-                }
-            }
-        } else {
-            echo '{ "Error" : "User not found" }';
-            http_response_code(405);
+switch (URL) {
+    case "auth":
+        
+        break;
+      
+    case "posts":
+        $post_id = $_GET['id'];
+        if(empty($post_id)) {
+            $api->throwError(405, "Post not found.");       
         }
-    } else if(URL == "posts") {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $post = Post::find_by_id($id);
-
-            if (!empty($post)) {
-                $postBody = json_decode(INPUT);
-                $post->title = $postBody->title;
-                $post->body = $postBody->body;
-
-                if($post->update()) {
-                    echo '{ "Status" : "Post updated" }';
-                    http_response_code(200);
-                } else {
-                    echo '{ "Error" : "Problem while updating Post" }';
-                    http_response_code(405);
-                }
-
-            }
-        } else {
-            echo '{ "Error" : "Post not found" }';
-            http_response_code(405);
-        }
-    }
-} else {
-    echo '{ "Error" : Not authorized" }';
-    http_response_code(401);
+        
+        $api->EditPost($post_id);
+        break;
 }
+
