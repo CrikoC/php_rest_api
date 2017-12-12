@@ -75,13 +75,10 @@ class Api extends Rest {
         if($user == "") {
             $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");
         } else {
-            
-            
             if($user == null) {
                 $this->throwError(NOT_FOUND, "User not found");
                 http_response_code(NOT_FOUND);
             } else {
-
                 $user->username = $username;
                 $user->password = $password;
                 
