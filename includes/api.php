@@ -54,8 +54,8 @@ class Api extends Rest {
         }
     }
     
-    public function viewProfile($id) {
-        $user = User::find_by_id( $id);
+    public function viewProfile() {
+        $user = User::find_by_id($this->userId);
         if(!empty($user)) {
             echo json_encode($user);
             http_response_code(SUCCESS_RESPONSE);
