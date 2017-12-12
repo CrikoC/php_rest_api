@@ -30,6 +30,7 @@ define("AUTHORIZATION_HEADER_NOT_FOUND",    300);
 define("ACCESS_TOKEN_ERRORS",               301);
 
 define("UNAUTHORIZED",                      401);
+define("NOT_FOUND",                         404);
 
 
 /* Include JWT */

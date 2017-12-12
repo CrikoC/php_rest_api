@@ -9,8 +9,8 @@ class Api extends Rest {
     /*               USERS               */
     /*************************************/
     public function register() {
-        $username = $this->validateData("username", $this->data["username"], STRING);
-        $password = $this->validateData("pasword", $this->data["pasword"], STRING);
+        $username = $this->validateData("username", $this->data->username, STRING);
+        $password = $this->validateData("password", $this->data->password, STRING);
         
         $user = new User;
         
@@ -22,14 +22,14 @@ class Api extends Rest {
             http_response_code(SUCCESS_RESPONSE);
         } else {
             $this->throwError(NOT_FOUND, "Error while creating user.");
-            http_response_code(405);
+            http_response_code(NOT_FOUND);
         }
     }
     
     public function authorize() {
         // Validate user fields
-        $username = $this->validateData("username", $this->data["username"], STRING);
-        $password = $this->validateData("password", $this->data["password"], STRING);
+        $username = $this->validateData("username", $this->data->username, STRING);
+        $password = $this->validateData("password", $this->data->password, STRING);
         
         //Search user by given username
         $user = User::find_single_by_column("username", $username);
@@ -47,8 +47,6 @@ class Api extends Rest {
             ];
             
             $token = \Firebase\JWT\JWT::encode($payload, SECRET_KEY);
-            
-            echo $token;
             
             $data = ['token' => $token];
             $this->response(SUCCESS_RESPONSE, $data);
@@ -77,8 +75,8 @@ class Api extends Rest {
     }
     
     public function addPost() {
-        $title = $this->validateData("title", $this->data["title"], STRING);
-        $body = $this->validateData("body", $this->data["body"], STRING);
+        $title = $this->validateData("title", $this->data->title, STRING);
+        $body = $this->validateData("body", $this->data->body, STRING);
         
         $this->validateToken();
         $user = User::find_by_id($this->userId);
@@ -103,8 +101,8 @@ class Api extends Rest {
     }
     
     public function EditPost($id) {
-        $title = $this->validateData("title", $this->data["title"], STRING);
-        $body = $this->validateData("body", $this->data["body"], STRING);
+        $title = $this->validateData("title", $this->data->title, STRING);
+        $body = $this->validateData("body", $this->data->body, STRING);
 
         $this->validateToken();
         $user = User::find_by_id($this->userId);

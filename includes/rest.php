@@ -1,18 +1,16 @@
 <?php
 
 class Rest {
-    protected $request;
-    //protected $service_name;
     protected $data;
     protected $userId;
     
     public function __construct() {
-        $this->request = json_encode(INPUT);
+        $this->data = json_decode(INPUT);
     }
     
     public function validateData($fieldName, $value, $datatype, $required = true) {
         if($required && (empty($value))) {
-            $this->throwError(NO_CONTENT, "Param $fieldName is required.");
+            $this->throwError(NO_CONTENT, "$fieldName is required.");
             http_response_code(NO_CONTENT);
         }
         
@@ -84,7 +82,7 @@ class Rest {
     public function validateToken() {
         $token = $this->getBearerToken();
         $payload = \Firebase\JWT\JWT::decode($token, SECRET_KEY, ['HS256']);
-        $userId = $payload->userId;
+        $this->userId = $payload->userId;
     }
     
     public function throwError($code, $message) {
@@ -92,8 +90,8 @@ class Rest {
         exit;
     }
     
-    public function response($code, $message) {
-        echo json_encode(['response' => ['status'=>$code, 'message'=>$message]]);
+    public function response($code, $data) {
+        echo json_encode(['response' => ['status'=>$code, 'data'=>$data]]);
         exit;
     }
 }
