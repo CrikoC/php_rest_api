@@ -96,7 +96,7 @@ class Api extends Rest {
         }
     }
     
-    public function deleteUser($id) {
+    public function deleteUser() {
         $this->validateToken();
         $user = User::find_by_id($this->userId);
         

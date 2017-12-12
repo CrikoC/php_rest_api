@@ -1,7 +1,7 @@
 <?php
 switch (URL) {
     case "profile":
-        $api->deleteUser($this->userId);
+        $api->deleteUser();
         break;
     case "posts":
         $post_id = $_GET['id'];
