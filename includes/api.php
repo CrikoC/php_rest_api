@@ -43,7 +43,7 @@ class Api extends Rest {
                 'iat'       => time(),
                 'iss'       => 'localhost',
                 'exp'       => time() + 3600,
-                'userId'    => $user->id
+                'userId'    => (int)$user->id //If not converted to int, it will be decoded as a string.
             ];
             
             $token = \Firebase\JWT\JWT::encode($payload, SECRET_KEY);
@@ -51,6 +51,65 @@ class Api extends Rest {
             $data = ['token' => $token];
             $this->response(SUCCESS_RESPONSE, $data);
             http_response_code(SUCCESS_RESPONSE);
+        }
+    }
+    
+    public function viewProfile($id) {
+        $user = User::find_by_id( $id);
+        if(!empty($user)) {
+            echo json_encode($user);
+            http_response_code(SUCCESS_RESPONSE);
+        } else {
+            $this->throwError(NOT_FOUND, "Could not find user.");
+            http_response_code(NOT_FOUND);
+        }
+    }
+    
+    public function EditProfile() {
+        $username = $this->validateData("username", $this->data->username, STRING);
+        $password = $this->validateData("password", $this->data->password, STRING);
+        
+        $this->validateToken();
+        $user = User::find_by_id($this->userId);
+        
+        if($user == "") {
+            $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");
+        } else {
+            
+            
+            if($user == null) {
+                $this->throwError(NOT_FOUND, "User not found");
+                http_response_code(NOT_FOUND);
+            } else {
+
+                $user->username = $username;
+                $user->password = $password;
+                
+                if($user->update()) {
+                    $this->response(SUCCESS_RESPONSE, "Account updated.");
+                    http_response_code(SUCCESS_RESPONSE);
+                    
+                } else {
+                    $this->throwError(NOT_FOUND, "Error while updating account");
+                }
+            }
+        }
+    }
+    
+    public function deleteUser($id) {
+        $this->validateToken();
+        $user = User::find_by_id($this->userId);
+        
+        if($user == "") {
+            $this->response(INVALID_USER_PASS, "Cannot find user in the database.");
+        } else {
+            if($user->delete()) {
+                echo '{ "Status" : "Account deleted" }';
+                http_response_code(SUCCESS_RESPONSE);
+            } else {
+                $this->throwError(NOT_FOUND, "Error while deleting user");
+                http_response_code(NOT_FOUND);
+            }
         }
     }
     /*************************************/
@@ -81,7 +140,7 @@ class Api extends Rest {
         $this->validateToken();
         $user = User::find_by_id($this->userId);
             
-        if($user = "") {
+        if($user == "") {
             $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");  
         } else {
             $post = new Post;
@@ -107,7 +166,7 @@ class Api extends Rest {
         $this->validateToken();
         $user = User::find_by_id($this->userId);
         
-        if($user = "") {
+        if($user == "") {
             $this->throwError(INVALID_USER_PASS, "Cannot find user in the database.");
         } else {
          
@@ -137,7 +196,7 @@ class Api extends Rest {
         $this->validateToken();
         $user = User::find_by_id($this->userId);
         
-        if($user = "") {
+        if($user == "") {
             $this->response(INVALID_USER_PASS, "Cannot find user in the database.");
         } else {
             $post = Post::find_by_id($id);

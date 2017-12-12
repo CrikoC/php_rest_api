@@ -2,7 +2,7 @@
 
 switch (URL) {
     case "profile":
-        
+        $api->viewProfile($this->userId);
         break;
         
     case "posts":

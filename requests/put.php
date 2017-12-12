@@ -1,7 +1,7 @@
 <?php
 
 switch (URL) {
-    case "auth":
+    case "profile":
         
         break;
       
