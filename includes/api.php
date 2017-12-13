@@ -130,7 +130,7 @@ class Api extends Rest {
             $this->response(INVALID_USER_PASS, "Cannot find user in the database.");
         } else {
             if($user->delete()) {
-                echo '{ "Status" : "Account deleted" }';
+                $this->response(SUCCESS_RESPONSE, "Account deleted.");
                 http_response_code(SUCCESS_RESPONSE);
             } else {
                 $this->throwError(NOT_FOUND, "Error while deleting user");
@@ -245,7 +245,7 @@ class Api extends Rest {
         } else {
             $post = Post::find_by_id($id);
             if($post->delete()) {
-                echo '{ "Status" : "Post deleted" }';
+                $this->response(SUCCESS_RESPONSE, "Post deleted.");
                 http_response_code(SUCCESS_RESPONSE);
             } else {
                 $this->throwError(NOT_FOUND, "Error while deleting post");
