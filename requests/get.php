@@ -6,13 +6,12 @@ switch (URL) {
         break;
         
     case "posts":
-        $post_id = $_GET['id'];
-        
-        if(!isset($post_id)) {
-            $api->ViewPosts();
+        if(isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $api->ViewPost($id);
         } else {
-            $api->ViewPost($post_id);
+            $api->ViewPosts();
         }
-        
+            
         break;
 }

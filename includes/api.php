@@ -155,7 +155,7 @@ class Api extends Rest {
         /*
          * @return post
          */
-        $post = Post::find_by_id( $id);
+        $post = Post::find_by_id($id);
         if(!empty($post)) {
             echo json_encode($post);
             http_response_code(SUCCESS_RESPONSE);
