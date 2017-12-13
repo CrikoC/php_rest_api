@@ -9,6 +9,13 @@ class Api extends Rest {
     /*               USERS               */
     /*************************************/
     public function register() {
+        /*
+         * @param username
+         * @param password
+         * 
+         * @return new user  
+         */
+        
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
         
@@ -27,6 +34,13 @@ class Api extends Rest {
     }
     
     public function authorize() {
+        /*
+         * @param username
+         * @param password
+         *
+         * @return token
+         */
+        
         // Validate user fields
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
@@ -34,7 +48,7 @@ class Api extends Rest {
         //Search user by given username
         $user = User::find_single_by_column("username", $username);
         
-        //Check if given password matches the user's password
+        //Check if given password matches the input password
         if(!password_verify($password, $user->password)) {
             $this->response(UNAUTHORIZED, "Invalid username or password.");
             http_response_code(UNAUTHORIZED);
@@ -43,7 +57,13 @@ class Api extends Rest {
                 'iat'       => time(),
                 'iss'       => 'localhost',
                 'exp'       => time() + 3600,
-                'userId'    => (int)$user->id //If not converted to int, it will be decoded as a string.
+                'userId'    => (int)$user->id 
+                /*
+                 * If user id will not converted to int, it will be decoded as a string,
+                 * Making it hard to search for the user when we search it's profile or
+                 * add the username as an author for each new post we add
+                 * 
+                 */
             ];
             
             $token = \Firebase\JWT\JWT::encode($payload, SECRET_KEY);
@@ -55,6 +75,9 @@ class Api extends Rest {
     }
     
     public function viewProfile() {
+        /*
+         * @return user
+         */
         $user = User::find_by_id($this->userId);
         if(!empty($user)) {
             echo json_encode($user);
@@ -66,6 +89,12 @@ class Api extends Rest {
     }
     
     public function EditProfile() {
+        /*
+         * @param username
+         * @param password
+         *
+         * @return updated user
+         */
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
         
@@ -116,10 +145,16 @@ class Api extends Rest {
     /*               POSTS               */
     /*************************************/
     public function ViewPosts() {
+        /*
+         * @return posts
+         */
         echo json_encode(Post::find_all());
     }
     
     public function ViewPost($id) {
+        /*
+         * @return post
+         */
         $post = Post::find_by_id( $id);
         if(!empty($post)) {
             echo json_encode($post);
@@ -131,6 +166,12 @@ class Api extends Rest {
     }
     
     public function addPost() {
+        /*
+         * @param title
+         * @param body
+         *
+         * @return new post
+         */
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
         
@@ -157,6 +198,12 @@ class Api extends Rest {
     }
     
     public function EditPost($id) {
+        /*
+         * @param title
+         * @param body
+         *
+         * @return upddated post
+         */
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
 
