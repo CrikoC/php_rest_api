@@ -20,6 +20,18 @@ class DatabaseObject {
         return $attributes;
     }
 
+    public static function find_by_sql($query="") {
+        global $db;
+        $object_array = [];
+        
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        while($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $object_array[] = static::instantiate($result);
+        }
+        
+        return $object_array;
+    }
 
     private static function instantiate($result) {
         $class_name = get_called_class();
@@ -30,19 +42,6 @@ class DatabaseObject {
         }
 
         return $object;
-    }
-
-    public static function find_by_sql($query="") {
-        global $db;
-        $object_array = [];
-
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        while($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $object_array[] = static::instantiate($result);
-        }
-
-        return $object_array;
     }
     /************************************/
 
