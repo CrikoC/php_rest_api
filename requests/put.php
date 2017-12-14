@@ -6,12 +6,13 @@ switch (URL) {
         break;
       
     case "posts":
-        $post_id = $_GET['id'];
-        if(empty($post_id)) {
-            $api->throwError(405, "Post not found.");       
+        if(isset($_GET['id'])) {
+            $post_id = $_GET['id'];
+            $api->EditPost($post_id);
+        } else {
+            $api->throwError(405, "Post not found.");  
         }
-        
-        $api->EditPost($post_id);
+       
         break;
 }
 
