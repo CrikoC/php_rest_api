@@ -161,6 +161,6 @@ class DatabaseObject {
     /************************************/
 
     public function upload_image($image_temp, $image) {
-        move_uploaded_file($image_temp, SITE_ROOT."/public/includes/images/$image");
+        move_uploaded_file($image_temp, SERVER_PATH."/public/includes/images/$image");
     }
 }
