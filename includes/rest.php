@@ -57,7 +57,7 @@ class Rest {
                     array_keys($requestHeaders)
                     ),
                 array_values($requestHeaders)
-                );
+            );
             
             if(isset($requestHeaders['Authorization'])) {
                 $headers = trim($requestHeaders['Authorization']);
