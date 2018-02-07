@@ -8,14 +8,8 @@ class Api extends Rest {
     /*************************************/
     /*               USERS               */
     /*************************************/
+
     public function register() {
-        /*
-         * @param username
-         * @param password
-         * 
-         * @return new user  
-         */
-        
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
         
@@ -32,15 +26,8 @@ class Api extends Rest {
             http_response_code(NOT_FOUND);
         }
     }
-    
+
     public function authorize() {
-        /*
-         * @param username
-         * @param password
-         *
-         * @return token
-         */
-        
         // Validate user fields
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
@@ -73,11 +60,8 @@ class Api extends Rest {
             http_response_code(SUCCESS_RESPONSE);
         }
     }
-    
+
     public function viewProfile() {
-        /*
-         * @return user
-         */
         $this->validateToken();
         
         $user = User::find_by_id($this->userId);
@@ -90,14 +74,8 @@ class Api extends Rest {
             http_response_code(NOT_FOUND);
         }
     }
-    
+
     public function EditProfile() {
-        /*
-         * @param username
-         * @param password
-         *
-         * @return updated user
-         */
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
         
@@ -148,9 +126,6 @@ class Api extends Rest {
     /*               POSTS               */
     /*************************************/
     public function ViewPosts() {
-        /*
-         * @return posts
-         */
         echo json_encode(Post::find_all());
     }
     
