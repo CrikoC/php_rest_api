@@ -130,9 +130,6 @@ class Api extends Rest {
     }
     
     public function ViewPost($id) {
-        /*
-         * @return post
-         */
         $post = Post::find_by_id($id);
         if(!empty($post)) {
             echo json_encode($post);
@@ -144,12 +141,6 @@ class Api extends Rest {
     }
     
     public function addPost() {
-        /*
-         * @param title
-         * @param body
-         *
-         * @return new post
-         */
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
         
@@ -176,12 +167,6 @@ class Api extends Rest {
     }
     
     public function EditPost($id) {
-        /*
-         * @param title
-         * @param body
-         *
-         * @return upddated post
-         */
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
 
