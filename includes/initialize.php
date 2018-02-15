@@ -40,6 +40,7 @@ require(SERVER_PATH.DS."vendor".DS."autoload.php");
 require_once(SERVER_PATH.DS.'includes'.DS.'database.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'database_object.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'users.php');
+require_once(SERVER_PATH.DS.'includes'.DS.'categories.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'posts.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'rest.php');
 require_once(SERVER_PATH.DS.'includes'.DS.'api.php');

@@ -12,6 +12,13 @@ switch (URL) {
         } else {
             $api->ViewPosts();
         }
-            
+        break;
+    case "categories":
+        if(isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $api->ViewPosts($id);
+        } else {
+            $api->ViewCategories();
+        }      
         break;
 }
