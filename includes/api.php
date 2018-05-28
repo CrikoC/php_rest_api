@@ -49,12 +49,6 @@ class Api extends Rest {
                 'iss'       => 'localhost',
                 'exp'       => time() + 3600,
                 'userId'    => (int)$user->id 
-                /*
-                 * If user id will not converted to int, it will be decoded as a string,
-                 * Making it hard to search for the user when we search it's profile or
-                 * add the username as an author for each new post we add
-                 * 
-                 */
             ];
             
             $token = \Firebase\JWT\JWT::encode($payload, SECRET_KEY);
