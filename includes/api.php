@@ -10,8 +10,8 @@ class Api extends Rest {
     /*************************************/
 
     public function register() {
-        $name = $this->validateData("name", $this->data->username, STRING);
-        $email = $this->validateData("email", $this->data->username, STRING);
+        $name = $this->validateData("name", $this->data->name, STRING);
+        $email = $this->validateData("email", $this->data->email, STRING);
         $username = $this->validateData("username", $this->data->username, STRING);
         $password = $this->validateData("password", $this->data->password, STRING);
         
@@ -145,6 +145,7 @@ class Api extends Rest {
     public function addPost() {
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
+        $category_id = $this->data->category_id;
         
         $this->validateToken();
         $user = User::find_by_id($this->userId);
@@ -157,6 +158,8 @@ class Api extends Rest {
             $post->title = $title;
             $post->body = $body;
             $post->author = $user->username;
+            $post->category_id = $category_id;
+            $post->published_at = date("Y-m-d");
             
             if($post->create()) {
                 $this->response(SUCCESS_RESPONSE, "Post created.");
@@ -171,6 +174,7 @@ class Api extends Rest {
     public function EditPost($id) {
         $title = $this->validateData("title", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
+        $category_id = $this->data->category_id;
 
         $this->validateToken();
         $user = User::find_by_id($this->userId);
@@ -189,7 +193,8 @@ class Api extends Rest {
                 $post->title = $title;
                 $post->body = $body;
                 $post->author = $user->username;
-                
+                $post->category_id = $category_id;
+
                 if($post->update()) {
                     $this->response(SUCCESS_RESPONSE, "Post updated.");
                     http_response_code(SUCCESS_RESPONSE);
@@ -251,7 +256,7 @@ class Api extends Rest {
         } else {
             $category = new Category;
             
-            $category->name = $title;
+            $category->name = $name;
             $category->body = $body;
             
             if($category->create()) {
@@ -265,7 +270,7 @@ class Api extends Rest {
     }
     
     public function EditCategory($id) {
-        $title = $this->validateData("name", $this->data->title, STRING);
+        $name = $this->validateData("name", $this->data->title, STRING);
         $body = $this->validateData("body", $this->data->body, STRING);
 
         $this->validateToken();
